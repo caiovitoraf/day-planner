@@ -1,0 +1,12 @@
+.workbench-container {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(12, 1fr); 
+  grid-auto-rows: 120px;
+  background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0);
+  background-size: 25px 25px;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
