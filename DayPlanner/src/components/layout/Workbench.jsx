@@ -6,12 +6,16 @@ import './Workbench.css';
 import NotesApplet from '../applets/NotesApplet';
 import TodoApplet from '../applets/TodoApplet';
 
-function Workbench({ applets, onLayoutChange }) {
-  
+function Workbench({ applets, onLayoutChange, onUpdateAppletContent }) {
+
   const renderAppletComponent = (applet) => {
     switch (applet.type) {
       case 'notes':
-        return <NotesApplet />;
+        return <NotesApplet 
+                 id={applet.i} 
+                 content={applet.content}
+                 onContentChange={onUpdateAppletContent} 
+               />;
       case 'todo':
         return <TodoApplet />;
       default:
@@ -27,6 +31,8 @@ function Workbench({ applets, onLayoutChange }) {
       cols={12}
       rowHeight={120}
       width={1600} 
+      compactType="vertical"
+      preventCollision={true}
     >
       {applets.map(applet => (
         <div key={applet.i} className="applet-wrapper">

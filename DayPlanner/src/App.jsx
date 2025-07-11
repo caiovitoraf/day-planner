@@ -15,11 +15,22 @@ function App() {
       i: String(Date.now()), 
       type: type,
       x: nextX,
-      y: Infinity, 
+      y: 1000,
       w: defaultWidth,
       h: defaultHeight,
+      content: ''
     };
     setApplets([...applets, newApplet]);
+  };
+
+  const updateAppletContent = (appletId, newContent) => {
+    const updatedApplets = applets.map(applet => {
+      if (applet.i === appletId) {
+        return { ...applet, content: newContent };
+      }
+      return applet;
+    });
+    setApplets(updatedApplets);
   };
 
   const onLayoutChange = (newLayout) => {
@@ -33,7 +44,11 @@ function App() {
   return (
     <>
       <Header onAddApplet={handleAddApplet} />
-      <Workbench applets={applets} onLayoutChange={onLayoutChange} />
+      <Workbench 
+        applets={applets} 
+        onLayoutChange={onLayoutChange}
+        onUpdateAppletContent={updateAppletContent} 
+      />
     </>
   )
 }
