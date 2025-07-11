@@ -1,12 +1,14 @@
-import './Workbench.css';
+import React from 'react';
+import GridLayout from 'react-grid-layout';
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import './Workbench.css'; 
 import NotesApplet from '../applets/NotesApplet';
 import TodoApplet from '../applets/TodoApplet';
 
-function Workbench({ applets }) {
-    
-    console.log('Workbench sendo renderizada com esta lista:', applets);
-
-    const renderAppletComponent = (applet) => {
+function Workbench({ applets, onLayoutChange }) {
+  
+  const renderAppletComponent = (applet) => {
     switch (applet.type) {
       case 'notes':
         return <NotesApplet />;
@@ -18,20 +20,20 @@ function Workbench({ applets }) {
   };
 
  return (
-    <main className="workbench-container">
+    <GridLayout
+      className="layout"
+      layout={applets} 
+      onLayoutChange={onLayoutChange} 
+      cols={12}
+      rowHeight={120}
+      width={1600} 
+    >
       {applets.map(applet => (
-        <div 
-          key={applet.id} 
-          className="applet-wrapper"
-          style={{
-            gridColumn: `${applet.x} / span ${applet.w}`,
-            gridRow: `${applet.y} / span ${applet.h}`,
-          }}
-        >
+        <div key={applet.i} className="applet-wrapper">
           {renderAppletComponent(applet)}
         </div>
       ))}
-    </main>
+    </GridLayout>
   );
 }
 

@@ -7,28 +7,33 @@ function App() {
   const [applets, setApplets] = useState([]);
   
   const handleAddApplet = (type) => {
-    console.log('App.jsx recebeu o sinal para adicionar:', type); // Para testar o sinal
-
-
     const defaultWidth = 4;
     const defaultHeight = 2;
-    const nextX = applets.reduce((acc, applet) => acc + applet.w, 0) % 12 + 1;
+    const nextX = applets.reduce((acc, applet) => acc + applet.w, 0) % 12;
 
     const newApplet = {
-      id: Date.now(), 
+      i: String(Date.now()), 
       type: type,
       x: nextX,
-      y: 1, 
+      y: Infinity, 
       w: defaultWidth,
       h: defaultHeight,
     };
     setApplets([...applets, newApplet]);
   };
 
+  const onLayoutChange = (newLayout) => {
+    const updatedApplets = applets.map(applet => {
+      const layoutItem = newLayout.find(item => item.i === applet.i);
+      return { ...applet, ...layoutItem };
+    });
+    setApplets(updatedApplets);
+  };
+
   return (
     <>
       <Header onAddApplet={handleAddApplet} />
-    <Workbench applets={applets} />
+      <Workbench applets={applets} onLayoutChange={onLayoutChange} />
     </>
   )
 }
