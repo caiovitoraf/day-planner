@@ -1,0 +1,59 @@
+.todo-applet {
+  /* Garante que o conteúdo não transborde o card */
+  overflow: hidden;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
+  overflow-y: auto; /* Adiciona scroll se a lista for longa */
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+}
+
+.task-list li.completed span {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.task-list input[type="checkbox"] {
+  margin-right: 0.75rem;
+  cursor: pointer;
+}
+
+.add-task-form {
+  display: flex;
+  margin-top: 0.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 0.75rem;
+}
+
+.add-task-form input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 0.9rem;
+}
+
+.add-task-form button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 24px;
+  text-align: center;
+}

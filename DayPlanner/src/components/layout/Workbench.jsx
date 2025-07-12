@@ -17,7 +17,11 @@ function Workbench({ applets, onLayoutChange, onUpdateAppletContent }) {
                  onContentChange={onUpdateAppletContent} 
                />;
       case 'todo':
-        return <TodoApplet />;
+        return <TodoApplet
+                 id={applet.i}
+                 tasks={applet.content} 
+                 onContentChange={onUpdateAppletContent}
+               />;
       default:
         return null; 
     }
