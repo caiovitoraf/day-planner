@@ -12,4 +12,6 @@
 
 .react-grid-layout {
   min-height: 100vh !important;
+  background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0);
+  background-size: 25px 25px;
 }

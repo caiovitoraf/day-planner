@@ -1,8 +1,10 @@
 import React, { useState } from 'react'; // Importe o useState aqui também
 import './Header.css';
 
-function Header({ onAddApplet }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, onClearAll }) {
+  const [isAppletMenuOpen, setIsAppletMenuOpen] = useState(false);
+  const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
+  const [isEditingDate, setIsEditingDate] = useState(false);
 
   const handleSelectApplet = (type) => {
     console.log('Sinal enviado do Menu! Tipo:', type); 
@@ -10,29 +12,57 @@ function Header({ onAddApplet }) {
     setIsMenuOpen(false); 
   };
 
-  return (
+  const formatDateForDisplay = (dateString) => {
+    const [year, month, day] = dateString.split('-');
+    return `${day}/${month}/${year}`;
+  };
+
+   return (
     <header className="header-container">
       <div className="header-date">
-        <p>Date: __/__/____</p>
+        {isEditingDate ? (
+        <input 
+            type="date"
+            className="date-input"
+            value={currentDate}
+            onChange={(e) => setCurrentDate(e.target.value)}
+            onBlur={() => setIsEditingDate(false)} // Sai do modo de edição ao perder o foco
+            autoFocus // Foca no input automaticamente ao aparecer
+          />
+        ) : (
+          <p onClick={() => setIsEditingDate(true)} title="Clique para alterar a data">
+            Date: {formatDateForDisplay(currentDate)}
+          </p>
+        )}
       </div>
 
       <div className="header-actions">
-        <button className="action-button menu-button" title="Menu">
-          ...
-        </button>
+        <div className="settings-menu-container">
+          <button 
+            className="action-button menu-button" 
+            title="Menu"
+            onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
+          >
+            ...
+          </button>
+          {isSettingsMenuOpen && (
+            <div className="settings-menu">
+              <button onClick={() => { onClearWorkbench(); setIsSettingsMenuOpen(false); }}>Limpar Workbench</button>
+              <button onClick={() => { onClearAll(); setIsSettingsMenuOpen(false); }}>Limpar Applets</button>
+            </div>
+          )}
+        </div>
 
-        <div className="add-applet-container"> {/* Container para posicionar o menu */}
+        <div className="add-applet-container">
           <button 
             className="action-button add-button" 
             title="Adicionar Applet"
-            // 2. O botão + agora apenas abre/fecha o menu
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            onClick={() => setIsAppletMenuOpen(!isAppletMenuOpen)} 
           >
             +
           </button>
           
-          {/* 3. O menu só aparece se isMenuOpen for true */}
-          {isMenuOpen && (
+          {isAppletMenuOpen && (
             <div className="applet-menu">
               <button onClick={() => handleSelectApplet('notes')}>Notes</button>
               <button onClick={() => handleSelectApplet('todo')}>To-do List</button>

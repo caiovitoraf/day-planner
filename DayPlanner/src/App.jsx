@@ -1,21 +1,41 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; // CORREÇÃO: useEffect foi adicionado aqui
 import Header from './components/layout/Header';
 import Workbench from './components/layout/Workbench';
 
-function App() {
+const getTodayDateString = () => {
+  const today = new Date();
+  return today.toISOString().split('T')[0]; 
+}
 
-  const [applets, setApplets] = useState([]);
-  
+function App() {
+  const [applets, setApplets] = useState(() => {
+    try {
+      const savedApplets = localStorage.getItem('workbench-applets');
+      if (savedApplets) {
+        return JSON.parse(savedApplets);
+      }
+    } catch (error) {
+      console.error("Failed to parse applets from localStorage", error);
+    }
+    return [];
+  });
+
+  const [currentDate, setCurrentDate] = useState(getTodayDateString());
+
+  useEffect(() => {
+    localStorage.setItem('workbench-applets', JSON.stringify(applets));
+  }, [applets]); 
+
   const handleAddApplet = (type) => {
     const defaultWidth = 4;
     const defaultHeight = 2;
-    const nextX = applets.reduce((acc, applet) => acc + applet.w, 0) % 12;
+    const nextX = (applets.length * defaultWidth) % 12;
 
     const newApplet = {
-      i: String(Date.now()), 
+      i: String(Date.now()),
       type: type,
       x: nextX,
-      y: 1000,
+      y: 1000, 
       w: defaultWidth,
       h: defaultHeight,
       content: ''
@@ -41,16 +61,34 @@ function App() {
     setApplets(updatedApplets);
   };
 
+  const handleClearWorkbench = () => {
+    const clearedApplets = applets.map(applet => ({
+      ...applet,
+      content: '' 
+    }));
+    setApplets(clearedApplets);
+  };
+
+  const handleClearAll = () => {
+    setApplets([]);
+  };
+
   return (
     <>
-      <Header onAddApplet={handleAddApplet} />
-      <Workbench 
-        applets={applets} 
+      <Header 
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
+        onAddApplet={handleAddApplet}
+        onClearWorkbench={handleClearWorkbench}
+        onClearAll={handleClearAll}
+      />
+      <Workbench
+        applets={applets}
         onLayoutChange={onLayoutChange}
-        onUpdateAppletContent={updateAppletContent} 
+        onUpdateAppletContent={updateAppletContent}
       />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
