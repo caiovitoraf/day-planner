@@ -13,7 +13,7 @@ function App() {
       const savedApplets = localStorage.getItem('workbench-applets');
       return savedApplets ? JSON.parse(savedApplets) : [];
     } catch (error) {
-      console.error("Failed to parse applets from localStorage", error);
+      console.error("Erro ao carregar applets do localStorage", error);
       return [];
     }
   });
@@ -25,41 +25,57 @@ function App() {
   }, [applets]);
 
   const handleAddApplet = (type) => {
-    const defaultWidth = 4;
-    const defaultHeight = 3;
-    const nextX = (applets.length * defaultWidth) % 12;
+    let defaultTitle = 'Novo Applet';
+    if (type === 'notes') defaultTitle = 'Notas Rápidas';
+    if (type === 'todo') defaultTitle = 'Lista de Tarefas';
+    if (type === 'appointments') defaultTitle = 'Agendamentos';
 
     const newApplet = {
       i: String(Date.now()),
       type: type,
-      x: nextX,
-      y: 1000,
-      w: defaultWidth,
-      h: defaultHeight,
-      content: type === 'todo' ? [] : '',
+      title: defaultTitle, // <-- NOVA PROPRIEDADE
+      content: (type === 'todo' || type === 'appointments') ? [] : '',
+      x: (applets.length * 4) % 12,
+      y: Infinity,
+      w: 4,
+      h: 2,
     };
     setApplets([...applets, newApplet]);
   };
+  
 
-  const updateAppletContent = (appletId, newContent) => {
-    const updatedApplets = applets.map(applet =>
-      applet.i === appletId ? { ...applet, content: newContent } : applet
-    );
-    setApplets(updatedApplets);
+  // FUNÇÃO DE ATUALIZAÇÃO GENÉRICA (MAIS PODEROSA)
+  const handleUpdateApplet = (appletId, updatedProperties) => {
+    setApplets(applets.map(applet => 
+      applet.i === appletId ? { ...applet, ...updatedProperties } : applet
+    ));
+  };
+
+  // NOVA FUNÇÃO PARA APAGAR
+  const handleDeleteApplet = (appletId) => {
+    setApplets(applets.filter(applet => applet.i !== appletId));
+  };
+
+  // NOVA FUNÇÃO PARA LIMPAR CONTEÚDO
+  const handleClearApplet = (appletId) => {
+    const appletToClear = applets.find(applet => applet.i === appletId);
+    if (!appletToClear) return;
+
+    const initialContent = (appletToClear.type === 'todo' || appletToClear.type === 'appointments') ? [] : '';
+    handleUpdateApplet(appletId, { content: initialContent });
   };
 
   const onLayoutChange = (newLayout) => {
-    const updatedApplets = applets.map(applet => {
-      const layoutItem = newLayout.find(item => item.i === applet.i);
-      return { ...applet, ...layoutItem };
-    });
-    setApplets(updatedApplets);
+    setApplets(currentApplets => 
+      currentApplets.map(applet => {
+        const layoutItem = newLayout.find(item => item.i === applet.i);
+        return layoutItem ? { ...applet, ...layoutItem } : applet;
+      })
+    );
   };
 
-  // --- ESTA É A VERSÃO CORRIGIDA DA FUNÇÃO ---
   const handleClearWorkbench = () => {
     const clearedApplets = applets.map(applet => {
-      // Verifica o tipo do applet e define o conteúdo "vazio" apropriado
       const clearedContent = applet.type === 'todo' ? [] : '';
       return {
         ...applet,
@@ -85,7 +101,9 @@ function App() {
       <Workbench
         applets={applets}
         onLayoutChange={onLayoutChange}
-        onUpdateAppletContent={updateAppletContent}
+        onUpdateApplet={handleUpdateApplet}
+        onDeleteApplet={handleDeleteApplet}
+        onClearApplet={handleClearApplet}
       />
     </>
   );

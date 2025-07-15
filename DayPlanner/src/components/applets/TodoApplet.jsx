@@ -1,55 +1,68 @@
 import React, { useState } from 'react';
 import './TodoApplet.css';
 
+// Recebe id, a lista de 'tasks' (que é o 'content' do applet) e a função onContentChange
 function TodoApplet({ id, tasks, onContentChange }) {
   
   const [newTaskText, setNewTaskText] = useState('');
 
+  // Adiciona uma nova tarefa
   const handleAddTask = (e) => {
     e.preventDefault();
-    if (newTaskText.trim() === '') return; 
+    if (newTaskText.trim() === '') return;
 
     const newTask = {
       id: Date.now(),
       text: newTaskText,
       completed: false,
     };
+    
+    // Comunica a nova lista (com a tarefa adicionada) para o App.jsx
     onContentChange(id, [...tasks, newTask]);
-    setNewTaskText(''); // Limpa o campo de input
+    setNewTaskText('');
   };
 
+  // Alterna o estado 'completed' de uma tarefa
   const handleToggleTask = (taskId) => {
-    const updatedTasks = tasks.map(task => 
+    const updatedTasks = tasks.map(task =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     );
+    // Comunica a alteração para o App.jsx
+    onContentChange(id, updatedTasks);
+  };
+
+  // Apaga uma tarefa específica
+  const handleDeleteTask = (taskId) => {
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    // Comunica a alteração para o App.jsx
     onContentChange(id, updatedTasks);
   };
 
   return (
-    <div className="applet-card todo-applet">
-      <div className="applet-header">
-        <h3>To-do List</h3>
-      </div>
-      <ul className="task-list">
+    // Usamos um Fragment (<>) ou uma div simples, pois o .applet-card-base já está por fora
+    <div className="todo-applet-container">
+      <div className="todo-list">
         {tasks.map(task => (
-          <li key={task.id} className={task.completed ? 'completed' : ''}>
-            <input 
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => handleToggleTask(task.id)}
-            />
-            <span>{task.text}</span>
-          </li>
+          <div key={task.id} className={`todo-item ${task.completed ? 'completed' : ''}`}>
+            <span className="todo-text" onClick={() => handleToggleTask(task.id)}>
+              {task.text}
+            </span>
+            <button onClick={() => handleDeleteTask(task.id)} className="delete-task-button">
+              &times;
+            </button>
+          </div>
         ))}
-      </ul>
-      <form onSubmit={handleAddTask} className="add-task-form">
+      </div>
+
+      <form onSubmit={handleAddTask} className="add-todo-form">
         <input
           type="text"
+          className="add-todo-input"
+          placeholder="Adicionar nova tarefa..."
           value={newTaskText}
           onChange={(e) => setNewTaskText(e.target.value)}
-          placeholder="Adicionar nova tarefa..."
         />
-        <button type="submit">+</button>
+        <button type="submit" className="add-todo-button">+</button>
       </form>
     </div>
   );

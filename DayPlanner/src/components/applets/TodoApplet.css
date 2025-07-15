@@ -1,59 +1,80 @@
-.todo-applet {
-  /* Garante que o conteúdo não transborde o card */
-  overflow: hidden;
-}
-
-.task-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1; /* Faz a lista ocupar o espaço disponível */
-  overflow-y: auto; /* Adiciona scroll se a lista for longa */
-}
-
-.task-list li {
+.todo-applet-container {
   display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.todo-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 5px; /* Evita que a barra de rolagem cole no texto */
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0.25rem;
+  padding: 0.4rem 0.2rem;
   border-bottom: 1px solid #f0f0f0;
   font-size: 0.9rem;
 }
 
-.task-list li.completed span {
+.todo-text {
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.todo-item.completed .todo-text {
   text-decoration: line-through;
   color: #aaa;
 }
 
-.task-list input[type="checkbox"] {
-  margin-right: 0.75rem;
+.delete-task-button {
+  background: none;
+  border: none;
+  color: #ff5c5c;
+  font-size: 1.2rem;
+  font-weight: bold;
   cursor: pointer;
+  padding: 0 0.5rem;
+  visibility: hidden; /* Fica invisível por padrão */
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.add-task-form {
+.todo-item:hover .delete-task-button {
+  visibility: visible; /* Aparece ao passar o mouse no item */
+  opacity: 1;
+}
+
+.add-todo-form {
   display: flex;
   margin-top: 0.5rem;
   border-top: 1px solid #eee;
   padding-top: 0.75rem;
 }
 
-.add-task-form input {
+.add-todo-input {
   flex-grow: 1;
   border: none;
+  border-bottom: 1px solid #ccc;
   outline: none;
   background-color: transparent;
   font-size: 0.9rem;
+  padding: 2px;
 }
 
-.add-task-form button {
+.add-todo-button {
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 50%;
   width: 24px;
   height: 24px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  line-height: 24px;
+  line-height: 22px; /* Ajuste para centralizar o '+' */
   text-align: center;
+  margin-left: 0.5rem;
 }

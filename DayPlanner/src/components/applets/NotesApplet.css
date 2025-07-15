@@ -6,7 +6,6 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  /* Definimos um tamanho inicial. Isso será dinâmico no futuro. */
   width: 100%;
   height: 100%;
 }
@@ -36,9 +35,9 @@
   height: 100%;
   border: none;
   background-color: transparent;
-  resize: none; /* Remove o 'handle' de redimensionamento do canto */
-  outline: none; /* Remove a borda azul ao focar */
-  font-family: inherit; /* Usa a mesma fonte do resto do app */
-  font-size: inherit;
-  color: inherit;
+  resize: none; /* O redimensionamento é feito pelo grid */
+  outline: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text-color);
 }
