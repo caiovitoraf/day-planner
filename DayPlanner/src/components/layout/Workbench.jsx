@@ -1,7 +1,5 @@
 import React from 'react';
 import GridLayout from 'react-grid-layout';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 import './Workbench.css'; 
 import NotesApplet from '../applets/NotesApplet';
 import TodoApplet from '../applets/TodoApplet';
