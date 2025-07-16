@@ -20,9 +20,21 @@ function App() {
 
   const [currentDate, setCurrentDate] = useState(getTodayDateString());
 
+  const [theme, setTheme] = useState(() => {
+    // Lê o tema salvo no localStorage ou usa 'light' como padrão
+    return localStorage.getItem('theme') || 'light';
+  });
+
   useEffect(() => {
     localStorage.setItem('workbench-applets', JSON.stringify(applets));
   }, [applets]);
+
+  useEffect(() => {
+    // Salva a escolha do tema no localStorage
+    localStorage.setItem('theme', theme);
+    // Adiciona o atributo data-theme ao body para o CSS funcionar
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const handleAddApplet = (type) => {
     let defaultTitle = 'Novo Applet';
@@ -95,6 +107,8 @@ function App() {
         currentDate={currentDate}
         setCurrentDate={setCurrentDate}
         onAddApplet={handleAddApplet}
+        theme={theme}
+        setTheme={setTheme}
         onClearWorkbench={handleClearWorkbench}
         onClearAll={handleClearAll}
       />

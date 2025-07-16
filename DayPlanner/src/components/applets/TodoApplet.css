@@ -7,7 +7,7 @@
 .todo-list {
   flex-grow: 1;
   overflow-y: auto;
-  padding-right: 5px; /* Evita que a barra de rolagem cole no texto */
+  padding-right: 5px;
 }
 
 .todo-item {
@@ -15,7 +15,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem 0.2rem;
-  border-bottom: 1px solid #f0f0f0;
+  /* Usando a variável de borda mais clara */
+  border-bottom: 1px solid var(--border-color-light); 
   font-size: 0.9rem;
 }
 
@@ -26,7 +27,8 @@
 
 .todo-item.completed .todo-text {
   text-decoration: line-through;
-  color: #aaa;
+  /* Usando a variável de texto mais claro */
+  color: var(--text-color-light); 
 }
 
 .delete-task-button {
@@ -37,31 +39,39 @@
   font-weight: bold;
   cursor: pointer;
   padding: 0 0.5rem;
-  visibility: hidden; /* Fica invisível por padrão */
+  visibility: hidden;
   opacity: 0;
   transition: opacity 0.2s;
 }
 
 .todo-item:hover .delete-task-button {
-  visibility: visible; /* Aparece ao passar o mouse no item */
+  visibility: visible;
   opacity: 1;
 }
 
 .add-todo-form {
   display: flex;
   margin-top: 0.5rem;
-  border-top: 1px solid #eee;
+  /* Usando a variável de borda */
+  border-top: 1px solid var(--border-color); 
   padding-top: 0.75rem;
 }
 
 .add-todo-input {
   flex-grow: 1;
   border: none;
-  border-bottom: 1px solid #ccc;
+  /* Usando a variável de borda */
+  border-bottom: 1px solid var(--border-color); 
   outline: none;
   background-color: transparent;
   font-size: 0.9rem;
   padding: 2px;
+  color: var(--text-color); /* Garante que o texto digitado tenha a cor certa */
+}
+
+/* Estiliza o texto do placeholder para o modo escuro */
+.add-todo-input::placeholder {
+  color: var(--text-color-light);
 }
 
 .add-todo-button {
@@ -74,7 +84,7 @@
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
-  line-height: 22px; /* Ajuste para centralizar o '+' */
+  line-height: 22px;
   text-align: center;
   margin-left: 0.5rem;
 }

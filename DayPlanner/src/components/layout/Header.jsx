@@ -1,15 +1,14 @@
-import React, { useState } from 'react'; // Importe o useState aqui também
+import React, { useState } from 'react';
 import './Header.css';
 
-function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, onClearAll }) {
+function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, onClearAll, theme, setTheme }) {
   const [isAppletMenuOpen, setIsAppletMenuOpen] = useState(false);
   const [isSettingsMenuOpen, setIsSettingsMenuOpen] = useState(false);
   const [isEditingDate, setIsEditingDate] = useState(false);
 
   const handleSelectApplet = (type) => {
-    console.log('Sinal enviado do Menu! Tipo:', type); 
     onAddApplet(type); 
-    setIsMenuOpen(false); 
+    setIsAppletMenuOpen(false); 
   };
 
   const formatDateForDisplay = (dateString) => {
@@ -26,8 +25,8 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
             className="date-input"
             value={currentDate}
             onChange={(e) => setCurrentDate(e.target.value)}
-            onBlur={() => setIsEditingDate(false)} // Sai do modo de edição ao perder o foco
-            autoFocus // Foca no input automaticamente ao aparecer
+            onBlur={() => setIsEditingDate(false)}
+            autoFocus
           />
         ) : (
           <p onClick={() => setIsEditingDate(true)} title="Clique para alterar a data">
@@ -49,6 +48,13 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
             <div className="settings-menu">
               <button onClick={() => { onClearWorkbench(); setIsSettingsMenuOpen(false); }}>Limpar Workbench</button>
               <button onClick={() => { onClearAll(); setIsSettingsMenuOpen(false); }}>Limpar Applets</button>
+              
+              <button onClick={() => {
+                setTheme(theme === 'light' ? 'dark' : 'light');
+                setIsSettingsMenuOpen(false);
+              }}>
+                {theme === 'light' ? 'Mudar para Modo Escuro' : 'Mudar para Modo Claro'}
+              </button>
             </div>
           )}
         </div>
@@ -74,4 +80,4 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
   );
 }
 
-export default Header
+export default Header;
