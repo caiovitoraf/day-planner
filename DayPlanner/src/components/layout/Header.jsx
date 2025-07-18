@@ -72,6 +72,7 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
             <div className="applet-menu">
               <button onClick={() => handleSelectApplet('notes')}>Notes</button>
               <button onClick={() => handleSelectApplet('todo')}>To-do List</button>
+              <button onClick={() => handleSelectApplet('appointments')}>Agendamentos</button>
             </div>
           )}
         </div>

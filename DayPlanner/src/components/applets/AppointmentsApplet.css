@@ -1,0 +1,61 @@
+.appointments-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.appointments-list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.appointment-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0.2rem;
+  border-bottom: 1px solid var(--border-color-light);
+  gap: 1rem;
+}
+
+.appointment-time {
+  font-weight: 600;
+  background-color: var(--background-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.appointment-activity {
+  font-size: 0.9rem;
+  flex-grow: 1;
+}
+
+.empty-message {
+  color: var(--text-color-light);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.add-appointment-area {
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.add-appointment-button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

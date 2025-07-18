@@ -50,7 +50,7 @@ function App() {
       x: (applets.length * 4) % 12,
       y: Infinity,
       w: 4,
-      h: 2,
+      h: 4,
     };
     setApplets([...applets, newApplet]);
   };

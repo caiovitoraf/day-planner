@@ -4,6 +4,8 @@ import './Workbench.css';
 import NotesApplet from '../applets/NotesApplet';
 import TodoApplet from '../applets/TodoApplet';
 import AppletCard from '../common/AppletCard';
+import AppointmentsApplet from '../applets/AppointmentsApplet';
+
 
 function Workbench({ applets, onLayoutChange, onUpdateApplet, onDeleteApplet, onClearApplet }) {
 
@@ -20,6 +22,8 @@ function Workbench({ applets, onLayoutChange, onUpdateApplet, onDeleteApplet, on
         return <NotesApplet {...contentProps} />;
       case 'todo':
         return <TodoApplet id={contentProps.id} tasks={contentProps.content} onContentChange={contentProps.onContentChange} />;
+      case 'appointments':
+        return <AppointmentsApplet {...contentProps} />;
       default:
         return <div>Tipo de Applet desconhecido</div>; 
     }
