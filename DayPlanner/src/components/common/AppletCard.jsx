@@ -6,6 +6,8 @@ function AppletCard({ applet, onUpdate, onDelete, onClear, children }) {
   const [newTitle, setNewTitle] = useState(applet.title);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
+  const cardClassName = `applet-card-base`;
+
   const menuRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -54,7 +56,7 @@ function AppletCard({ applet, onUpdate, onDelete, onClear, children }) {
   };
 
   return (
-    <div className="applet-card-base">
+    <div className={cardClassName}>
       <div className="applet-header">
         {isEditingTitle ? (
           <input
@@ -75,7 +77,20 @@ function AppletCard({ applet, onUpdate, onDelete, onClear, children }) {
           title="Editar título"
           onClick={isEditingTitle ? () => setIsEditingTitle(false) : handleEditClick}
         >
-          ✏️
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#000000"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+          <path d="M13.5 6.5l4 4" />
+        </svg>
         </button>                  
 
         <div className="applet-menu-container no-drag" ref={menuRef}>
@@ -84,7 +99,21 @@ function AppletCard({ applet, onUpdate, onDelete, onClear, children }) {
             title="Opções do applet"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            ⋮
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#000000"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 6l16 0" />
+            <path d="M4 12l16 0" />
+            <path d="M4 18l16 0" />
+          </svg>
           </button>
           {isMenuOpen && (
             <div className="applet-dropdown-menu">

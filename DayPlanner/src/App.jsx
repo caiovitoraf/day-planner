@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/layout/Header';
 import Workbench from './components/layout/Workbench';
+import Modal from './components/common/Modal';
+import PomodoroSetupForm from './components/applets/PomodoroSetupForm';
+
 
 const getTodayDateString = () => {
   const today = new Date();
@@ -17,6 +20,8 @@ function App() {
       return [];
     }
   });
+
+  const [setupInfo, setSetupInfo] = useState({ isOpen: false, type: null });
 
   const [currentDate, setCurrentDate] = useState(getTodayDateString());
 
@@ -36,23 +41,43 @@ function App() {
     document.body.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const handleAddApplet = (type) => {
+  const handleAddApplet = (type, config = {}) => {
     let defaultTitle = 'Novo Applet';
+    let content = type === 'todo' || type === 'appointments' ? [] : '';
+    let { w, h } = { w: 4, h: 4 }; 
     if (type === 'notes') defaultTitle = 'Notas Rápidas';
     if (type === 'todo') defaultTitle = 'Lista de Tarefas';
     if (type === 'appointments') defaultTitle = 'Agendamentos';
+    
+    if (type === 'pomodoro') {
+      defaultTitle = 'Timer Pomodoro';
+      content = {
+        workTime: config.workTime || 25, 
+        breakTime: config.breakTime || 5,  
+      };
+      w = 3; 
+    }
 
     const newApplet = {
       i: String(Date.now()),
       type: type,
-      title: defaultTitle, // <-- NOVA PROPRIEDADE
-      content: (type === 'todo' || type === 'appointments') ? [] : '',
+      title: defaultTitle,
+      content: content,
       x: (applets.length * 4) % 12,
       y: Infinity,
-      w: 4,
-      h: 4,
+      w: w,
+      h: h,
     };
-    setApplets([...applets, newApplet]);
+    setApplets(prevApplets => [...prevApplets, newApplet]);
+    setSetupInfo({ isOpen: false, type: null }); // Fecha o modal após adicionar
+  };
+
+  const handleOpenSetup = (type) => {
+    setSetupInfo({ isOpen: true, type: type });
+  };
+  
+  const handleCloseSetup = () => {
+    setSetupInfo({ isOpen: false, type: null });
   };
   
 
@@ -101,6 +126,8 @@ function App() {
     setApplets([]);
   };
 
+
+
   return (
     <>
       <Header
@@ -109,6 +136,7 @@ function App() {
         onAddApplet={handleAddApplet}
         theme={theme}
         setTheme={setTheme}
+        onOpenSetup={handleOpenSetup}
         onClearWorkbench={handleClearWorkbench}
         onClearAll={handleClearAll}
       />
@@ -119,6 +147,15 @@ function App() {
         onDeleteApplet={handleDeleteApplet}
         onClearApplet={handleClearApplet}
       />
+      <Modal 
+        isOpen={setupInfo.isOpen && setupInfo.type === 'pomodoro'} 
+        onClose={handleCloseSetup}
+        title="Configurar Timer Pomodoro"
+      >
+        <PomodoroSetupForm 
+          onSave={config => handleAddApplet('pomodoro', config)} 
+        />
+      </Modal>
     </>
   );
 }
