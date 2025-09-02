@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IconMenu2, IconLayoutGridAdd } from '@tabler/icons-react';
 import './Header.css';
 
 function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, onClearAll, theme, setTheme, onOpenSetup }) {
@@ -53,21 +54,7 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
             title="Menu"
             onClick={() => setIsSettingsMenuOpen(!isSettingsMenuOpen)}
           >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            viewBox="0 -4 24 24" 
-            fill="none"
-            stroke="#000000"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M4 6l16 0" />
-            <path d="M4 12l16 0" />
-            <path d="M4 18l16 0" />
-          </svg>
+            <IconMenu2 size={22} />
           </button>
           {isSettingsMenuOpen && (
             <div className="settings-menu">
@@ -90,19 +77,7 @@ function Header({ currentDate, setCurrentDate, onAddApplet, onClearWorkbench, on
             title="Adicionar Applet"
             onClick={() => setIsAppletMenuOpen(!isAppletMenuOpen)} 
           >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#000000"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
-          </svg>
+            <IconLayoutGridAdd size={24} />
           </button>
           
           {isAppletMenuOpen && (

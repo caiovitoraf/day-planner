@@ -10,9 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@codemirror/lang-markdown": "^6.3.3",
-    "@codemirror/language-data": "^6.5.1",
-    "@uiw/react-codemirror": "^4.24.1",
+    "@tabler/icons-react": "^3.34.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-grid-layout": "^1.5.2"

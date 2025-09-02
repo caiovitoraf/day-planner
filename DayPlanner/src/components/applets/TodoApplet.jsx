@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IconX, IconPlus } from '@tabler/icons-react';
 import './TodoApplet.css';
 
 // Recebe id, a lista de 'tasks' (que é o 'content' do applet) e a função onContentChange
@@ -48,7 +49,7 @@ function TodoApplet({ id, tasks, onContentChange }) {
               {task.text}
             </span>
             <button onClick={() => handleDeleteTask(task.id)} className="delete-task-button">
-              &times;
+              <IconX size={16} />
             </button>
           </div>
         ))}
@@ -62,7 +63,7 @@ function TodoApplet({ id, tasks, onContentChange }) {
           value={newTaskText}
           onChange={(e) => setNewTaskText(e.target.value)}
         />
-        <button type="submit" className="add-todo-button">+</button>
+        <button type="submit" className="add-todo-button"><IconPlus /></button>
       </form>
     </div>
   );

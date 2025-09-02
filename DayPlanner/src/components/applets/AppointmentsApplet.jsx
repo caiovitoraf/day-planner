@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { IconX, IconPlus } from '@tabler/icons-react';
 import Modal from '../common/Modal';
 import './AppointmentsApplet.css';
 
@@ -151,14 +152,14 @@ function AppointmentsApplet({ id, content, onContentChange }) {
               )}
 
               <button className="delete-appointment-button" onClick={(e) => { e.stopPropagation(); handleDeleteAppointment(appt.id); }}>
-                &times;
+                <IconX size={16} />
               </button>
             </div>
           ))
         )}
       </div>
       <div className="add-appointment-area">
-        <button className="add-appointment-button" onClick={() => setIsModalOpen(true)}>+</button>
+        <button className="add-appointment-button" onClick={() => setIsModalOpen(true)}><IconPlus /></button>
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Novo Agendamento">
